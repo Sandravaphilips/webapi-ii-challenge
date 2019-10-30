@@ -54,7 +54,7 @@ const postCommentById = async(req, res) => {
 function getAllPosts(req, res) {
     db.find()
     .then(data => {
-        console.log(data)
+        res.status(200).json(data)
     })
     .catch(() => res.status(500).json({ error: "The posts information could not be retrieved." }))
 }
@@ -67,7 +67,6 @@ function getPostById(req, res) {
         if(!data) {
             return res.status(404).json({ message: "The post with the specified ID does not exist." })
         }
-        console.log(data)
         res.status(200).json(data)
     })
     .catch(() => res.status(500).json({ error: "The post information could not be retrieved." }))
@@ -81,7 +80,6 @@ function getCommentsById(req, res) {
         if(!data) {
             return res.status(404).json({ message: "The post with the specified ID does not exist." })
         }
-        console.log(data)
         return res.status(200).json(data)
     })
     .catch(() => res.status(500).json({ error: "The comments information could not be retrieved." }))
