@@ -6,6 +6,7 @@ import './App.css';
 const AppStyle = styled.div`
   div{
     display: flex;
+    justify-content: space-evenly;
     flex-wrap: wrap;
     padding: 15px 20%;
 
@@ -13,7 +14,12 @@ const AppStyle = styled.div`
       border: 1px solid black;
       background-color: lightgreen;
       border-radius:8px;
-      width: 200px;
+      width: 250px;
+      padding:0;
+      display: flex;
+      flex-direction:column;
+      align-items: center;
+      margin-bottom: 10px;
     }
   }
 `
@@ -22,7 +28,7 @@ function App() {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:500/api/posts')
+    axios.get('http://localhost:5000/api/posts')
     .then(res => {
       setPosts(res.data)
     })
@@ -34,12 +40,12 @@ function App() {
       <h1>Welcome To My Posts' Page</h1>
 
       <div>
-        {posts.map(post => {
+        {posts.map(post => 
           <div key={post.id}>
             <h3>{post.title}</h3>
             <p>{post.contents}</p>
           </div>
-        })}
+        )}
       </div>
     </AppStyle>
   );
