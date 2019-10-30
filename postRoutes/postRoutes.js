@@ -9,7 +9,7 @@ router.get('/', getAllPosts);
 router.get('/:id', getPostById);
 router.get('/:id/comments', getCommentsById);
 router.delete('/:id', deletePost);
-router.put('./:id', updatePost);
+router.put('/:id', updatePost);
 
 function createNewPost(req, res) {
     const newPost = {
@@ -25,8 +25,10 @@ function createNewPost(req, res) {
 }
 
 function postCommentById(req, res) {
+    const {id} = req.params
     const newComment = {
-        text: req.body.text
+        text: req.body.text,
+        post_id: id
     }
 
     db.insertComment(newComment)
@@ -57,7 +59,7 @@ function getPostById(req, res) {
 function getCommentsById(req, res) {
     const {id} = req.params;
 
-    db.find(id)
+    db.findPostComments(id)
     .then(data => {
         console.log(data)
     })
@@ -67,7 +69,13 @@ function getCommentsById(req, res) {
 function deletePost(req, res) {
     const {id} = req.params;
 
-    const postToDelete = db.findById(id);
+    let postToDelete;
+
+    db.findById(id)
+    .then(data => {
+        postToDelete = data
+    })
+    .catch(err => console.log(err))
 
     db.remove(id)
     .then(data => {
